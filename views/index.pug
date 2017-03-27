@@ -26,7 +26,7 @@ block content
   div(class="row" id="content")
     div(class="medium-9 medium-centered columns")
       div(id="ring")
-  form(action="/"  methode="POST")
+  form(action="/log"  methode="POST")
     .row
       .large-10.columns
         .row.collapse
@@ -35,4 +35,4 @@ block content
               input(type='text', placeholder='entrer votre pseudo', name="username" class="error")
           .small-2.columns
             label
-              a.button( type="submit" class="button" href="/log") Go !
+              button( type="submit" class="button" href="/log") Go !
