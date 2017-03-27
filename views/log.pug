@@ -10,9 +10,9 @@ block content
         div(class="top-bar-right" id='menu')
           ul(class="dropdown menu" data-dropdown-menu)
             li: img(src="images/avatar1.png" alt="joueur 1" width="50px" height="50px")
-            li(id="pseudo1")
+            li(id="pseudo1") #{pseudo1}
             li: img(src="images/avatar2.png" alt="joueur 2" width="50px" height="50px")
-            li(id="pseudo2")
+            li(id="pseudo2") #{pseudo2}
             li
               a(href="/") how to play ?
               ul(class="menu")
@@ -25,13 +25,4 @@ block content
                 each val in file
                   li #{val.username} #{val.score}
                 
-  form(action="/log"  methode="POST")
-    .row
-      .large-10.columns
-        .row.collapse
-          .small-10.columns
-            label(class="error")
-              input(type='text', placeholder='entrer votre pseudo', name="username" class="error")
-          .small-2.columns
-            label
-              button( type="submit" name="poster" class="button") Go !
+  
