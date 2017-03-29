@@ -2,10 +2,7 @@ window.addEventListener('DOMContentLoaded', function () {
   console.log('JAVASCRIPT chargé !');
   window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
-var form = document.getElementById("form-id");
-document.getElementById('form-submit').addEventListener("click", function(e){
-e.currentTarget.preventDefault;
-})
+
   //GESTION DES LIMITES DE LA ZONE DE JEU
   var gameWidth = window.document.body.clientWidth;
   var gameHeight = window.document.body.clientHeight;
