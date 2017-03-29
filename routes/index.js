@@ -16,8 +16,6 @@ router.get('/', function (req, res, next) {
 
 
 router.post('/', function (req, res, next) {
-  console.log('WRITE DATABASE');
-  console.log(req.body.username);
   if (playerArray.length == 0 || playerArray.length == 1) {
     playerArray.push(req.body.username);
   }

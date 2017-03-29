@@ -6,6 +6,22 @@ window.addEventListener('DOMContentLoaded', function () {
   var gameWidth = window.document.body.clientWidth;
   var gameHeight = window.document.body.clientHeight;
   //--------------------------------------------------------
+  var player = 0;
+  window.addEventListener("submit", function () {
+    player++;
+    var pseudoValue = document.getElementById('pseudo').value;
+    socket.emit('login', { pseudoValue })
+  });
+  socket.on('login', function (pseudoValue) {
+    alert(pseudoValue);
+    if (player == 1) {
+      document.getElementById("pseudo1").innerHTML = pseudoValue;
+    }
+    if (player == 2) {
+      document.getElementById("pseudo2").innerHTML = pseudoValue;
+
+    }
+  })
   //DESSINER LES AVATARS ET METTRE A JOUR LES EXISTANTS
   var drawAvatar = function (data) {
     var avatar = window.document.getElementById(data.id);
@@ -91,7 +107,7 @@ window.addEventListener('DOMContentLoaded', function () {
         };
       });
     };
-  bolAnimate();
+    bolAnimate();
   });
   //disparition des bols cliqués
   socket.on('eatAction', function (target) {

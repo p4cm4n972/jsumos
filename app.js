@@ -130,7 +130,10 @@ io.on('connection', function (socket) {
   for (var i = 0; i < 50; i++) {
     mesBols.push(createBol())
   }
-
+socket.on('login', function(pseudoValue){
+  var pseudoOK = pseudoValue.pseudoValue;
+io.emit('login', pseudoOK);
+})
   socket.on('start', function () {
     mesBols.forEach(function (element) {
       io.emit('animation', element);
