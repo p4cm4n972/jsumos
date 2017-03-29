@@ -5,16 +5,17 @@ window.addEventListener('DOMContentLoaded', function () {
   //GESTION DES LIMITES DE LA ZONE DE JEU
   var gameWidth = window.document.body.clientWidth;
   var gameHeight = window.document.body.clientHeight;
-  //--------------------------------------------------------
-  var player = 0;
+  //GESTION DES PSEUDOS
+  var player = 1;
   window.addEventListener("submit", function () {
-    player++;
     var pseudoValue = document.getElementById('pseudo').value;
     socket.emit('login', { pseudoValue })
   });
   socket.on('login', function (pseudoValue) {
     alert(pseudoValue);
-    if (player == 1) {
+    alert(player);
+
+    if (player == 1 || player == 3) {
       document.getElementById("pseudo1").innerHTML = pseudoValue;
     }
     if (player == 2) {
