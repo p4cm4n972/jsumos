@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', function () {
   //VARIABLES
   var joueur1 = document.getElementById("pseudo1");
   var joueur2 = document.getElementById("pseudo2");
-  var score = 0;
+  var total = 0;
 
   //GESTION DES PSEUDOS
   window.addEventListener("submit", function (e) {
@@ -25,7 +25,6 @@ window.addEventListener('DOMContentLoaded', function () {
   socket.on('login', function (pseudoValue) {
     if (joueur1.innerText.length == 0) {
       joueur1.innerHTML = pseudoValue;
-
     } else {
       joueur2.innerHTML = pseudoValue;
     }
@@ -138,8 +137,8 @@ window.addEventListener('DOMContentLoaded', function () {
     var eating = window.document.getElementById(clicking.target);
     if (eating) {
       eating.style.display = 'none';
-        score++;
-        document.getElementById(clicking.clicker).innerHTML = score;
+        total++;
+        document.getElementById(clicking.clicker).innerHTML = total;
     };
   });
   //
