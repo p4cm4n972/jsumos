@@ -13,7 +13,7 @@ var db = require('./public/javascripts/db.js');
 
 
 
-db.connect('mongodb://localhost:27017/jsumos', function(err) {
+db.connect('mongodb://localhost/jsumos', function(err) {
   if (err) {
     console.log('Impossible de se connecter à la base de données.');
     process.exit(1);
@@ -85,23 +85,22 @@ var coordsAleatoire = function (min, max) {
 };
 //CONNEXION
 var player = 0;
+var joueur;
 io.on('connection', function (socket) {
-  console.log('new connexion')
+  
+  console.log(socket.id);
   //restriction à 2 connection
-  io.of('/').clients(function (error, clients) {
+  /*io.of('/').clients(function (error, clients) {
     if (clients.length === 2) {
       io.emit('update', { avatar, mesBols });
     }
-  });
-      socket.on('move', function (position) {
-        avatar.top = parseFloat(position.top) + 'px';
-        avatar.left = parseFloat(position.left) + 'px';
-      })
-
+  });*/
+   
+      
   player++;
   mesBols = [];
   var avatar = {
-    id: guid(),
+    id: socket.id,
     top: '0px',
     left: '0px',
     width: '100px',
@@ -117,7 +116,7 @@ io.on('connection', function (socket) {
   //UPDATE BOLS
   function createBol() {
     var bol = {
-      id: guid(),
+     id: guid(),
       top: coordsAleatoire(100, 700) + 'px',
       left: coordsAleatoire(10, 900) + 'px',
       width: '50px',
@@ -130,6 +129,7 @@ io.on('connection', function (socket) {
   for (var i = 0; i < 50; i++) {
     mesBols.push(createBol())
   }
+  //EMISSIONS DES DONNEES
 socket.on('login', function(pseudoValue){
   var pseudoOK = pseudoValue.pseudoValue;
 io.emit('login', pseudoOK);
@@ -138,11 +138,18 @@ io.emit('login', pseudoOK);
     mesBols.forEach(function (element) {
       io.emit('animation', element);
     });
-
   });
-  socket.on('eat', function (target) {
-    console.log(target);
-    io.emit('eatAction', target);
+
+  socket.on('move', function (position) {
+        avatar.top = parseFloat(position.top) + 'px';
+        avatar.left = parseFloat(position.left) + 'px';
+
+        io.emit('update', {avatar,mesBols});
+      });
+
+  socket.on('eat', function (clicking) {
+    console.log(clicking);
+    io.emit('eatAction', clicking);
   })
 
   //DECONNEXION
@@ -156,5 +163,5 @@ io.emit('login', pseudoOK);
 
 
 http.listen(3000, function () {
-  console.log('HTTP listen on : 3000');
+  console.log('HTTP listen on : 8000');
 });

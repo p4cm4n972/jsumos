@@ -46,3 +46,9 @@ body {
     background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db , #2cb5e8 , #07f0f6,#58f607,#f7f91e,#f7f91e,#fda600,#fd6600,#fd0d00) ;
     
 }
+
+p{
+  width: 25px;
+  height: 25px;
+  border: solid 2px red
+}

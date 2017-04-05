@@ -5,23 +5,34 @@ window.addEventListener('DOMContentLoaded', function () {
   //GESTION DES LIMITES DE LA ZONE DE JEU
   var gameWidth = window.document.body.clientWidth;
   var gameHeight = window.document.body.clientHeight;
+  //VARIABLES
+  var joueur1 = document.getElementById("pseudo1");
+  var joueur2 = document.getElementById("pseudo2");
+  var score = 0;
+
   //GESTION DES PSEUDOS
-  var player = 1;
-  window.addEventListener("submit", function () {
+  window.addEventListener("submit", function (e) {
     var pseudoValue = document.getElementById('pseudo').value;
-    socket.emit('login', { pseudoValue })
+    if(pseudoValue.trim().length == 0) {
+      alert('Veillez rentrer un pseudo valide !');
+      e.preventDefault();
+    } else {
+    socket.emit('login', {
+      pseudoValue
+    })
+    }
   });
   socket.on('login', function (pseudoValue) {
-    alert(pseudoValue);
-    alert(player);
+    if (joueur1.innerText.length == 0) {
+      joueur1.innerHTML = pseudoValue;
 
-    if (player == 1 || player == 3) {
-      document.getElementById("pseudo1").innerHTML = pseudoValue;
+    } else {
+      joueur2.innerHTML = pseudoValue;
     }
-    if (player == 2) {
-      document.getElementById("pseudo2").innerHTML = pseudoValue;
 
-    }
+
+
+
   })
   //DESSINER LES AVATARS ET METTRE A JOUR LES EXISTANTS
   var drawAvatar = function (data) {
@@ -33,6 +44,11 @@ window.addEventListener('DOMContentLoaded', function () {
       avatar.style.height = data.height;
       avatar.style.position = 'absolute';
       window.document.body.appendChild(avatar);
+      score = window.document.createElement('p');
+      score.id = data.id;
+      score.style.position = 'absolute';
+      avatar.appendChild(score);
+      console.log(avatar.id);
     };
     avatar.style.top = data.top;
     avatar.style.left = data.left;
@@ -46,7 +62,6 @@ window.addEventListener('DOMContentLoaded', function () {
     bol.setAttribute('class', 'monBol');
     bol.style.top = coord.top;
     bol.style.left = coord.left;
-
     bolImage = document.createElement('img');
     bolImage.src = coord.url;
     bol.appendChild(bolImage);
@@ -54,32 +69,39 @@ window.addEventListener('DOMContentLoaded', function () {
     bolImage.style.height = '50px';
     bol.style.position = 'absolute';
     window.document.body.appendChild(bol);
-    bol.addEventListener('click', function (e) { var target = e.currentTarget.id; console.log(target); socket.emit('eat', target) });
+    bol.addEventListener('click', function (e) {
+      var target = e.currentTarget.id;
+      var clicker = e.view.socket.id;
+      socket.emit('eat', {target, clicker})
+    });
   }
   //---------------------------------------------------------
   //GESTIONS DES EVENEMENTS / AVATARS
   socket.on('update', function (data) {
     drawAvatar(data.avatar);
   });
+  //déplacements Avatars
+  window.addEventListener('mousemove', function(event){
+          socket.emit('move', {
+            top: event.clientY,
+            left: event.clientX
+          });
+      });
+//destroy
   socket.on('destroy', function (data) {
     var avatar = window.document.getElementById(data.id);
     if (avatar) {
       avatar.parentNode.removeChild(avatar);
     };
   });
-  window.addEventListener('mousemove', function (event) {
-    socket.emit('move', {
-      top: event.clientY,
-      left: event.clientX
-    });
-  });
+  
   //---------------------------------------------------------
   //GESTIONS DES EVENEMENTS / BOLS
-  window.document.addEventListener('keydown', function (k) {
-    if (k.keyCode == 32) {
-      socket.emit('start', {});
-    }
-  });
+  
+//lancement de l'animation
+  if (joueur1.innerText.length > 0 && joueur2.innerText.length > 0) {
+    socket.emit('start', {});
+  }
   //apparation des bols
   socket.on('animation', function (coord) {
     drawBol(coord);
@@ -111,14 +133,16 @@ window.addEventListener('DOMContentLoaded', function () {
     bolAnimate();
   });
   //disparition des bols cliqués
-  socket.on('eatAction', function (target) {
-    console.log(target);
-    var eating = window.document.getElementById(target);
+  socket.on('eatAction', function (clicking) {
+    console.log(clicking);
+    var eating = window.document.getElementById(clicking.target);
     if (eating) {
-      eating.parentNode.removeChild(eating);
+      eating.style.display = 'none';
+        score++;
+        document.getElementById(clicking.clicker).innerHTML = score;
     };
   });
   //
 
 
-});//END
+}); //END
