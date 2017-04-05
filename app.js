@@ -106,6 +106,7 @@ io.on('connection', function (socket) {
     width: '100px',
     height: '100px',
     url: "/images/avatar" + player + ".png",
+    total: 0
   };
 
 
@@ -141,8 +142,8 @@ io.emit('login', pseudoOK);
   });
 
   socket.on('move', function (position) {
-        avatar.top = parseFloat(position.top) + 'px';
-        avatar.left = parseFloat(position.left) + 'px';
+        avatar.top = parseFloat(position.top) + 10 + 'px';
+        avatar.left = parseFloat(position.left) + 10 + 'px';
 
         io.emit('update', {avatar,mesBols});
       });

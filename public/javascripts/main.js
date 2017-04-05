@@ -8,7 +8,6 @@ window.addEventListener('DOMContentLoaded', function () {
   //VARIABLES
   var joueur1 = document.getElementById("pseudo1");
   var joueur2 = document.getElementById("pseudo2");
-  var total = 0;
 
   //GESTION DES PSEUDOS
   window.addEventListener("submit", function (e) {
@@ -46,6 +45,9 @@ window.addEventListener('DOMContentLoaded', function () {
       score = window.document.createElement('p');
       score.id = data.id;
       score.style.position = 'absolute';
+      score.style.top = "40px";
+      score.style.left = "40px";
+      score.innerText = data.total
       avatar.appendChild(score);
       console.log(avatar.id);
     };
@@ -138,7 +140,7 @@ window.addEventListener('DOMContentLoaded', function () {
     if (eating) {
       eating.style.display = 'none';
         total++;
-        document.getElementById(clicking.clicker).innerHTML = total;
+        document.getElementById(clicking.clicker).innerText = total;
     };
   });
   //
