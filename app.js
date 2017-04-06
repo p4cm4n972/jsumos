@@ -156,7 +156,7 @@ io.emit('login', pseudoOK);
   //DECONNEXION
   socket.on('disconnect', function () {
     console.log('deconnexion');
-    io.emit('destroy', {})
+    io.emit('destroy', avatar)
   });
 
 

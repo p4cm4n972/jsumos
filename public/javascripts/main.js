@@ -12,13 +12,13 @@ window.addEventListener('DOMContentLoaded', function () {
   //GESTION DES PSEUDOS
   window.addEventListener("submit", function (e) {
     var pseudoValue = document.getElementById('pseudo').value;
-    if(pseudoValue.trim().length == 0) {
+    if (pseudoValue.trim().length == 0) {
       alert('Veillez rentrer un pseudo valide !');
       e.preventDefault();
     } else {
-    socket.emit('login', {
-      pseudoValue
-    })
+      socket.emit('login', {
+        pseudoValue
+      })
     }
   });
   socket.on('login', function (pseudoValue) {
@@ -47,9 +47,9 @@ window.addEventListener('DOMContentLoaded', function () {
       score.style.position = 'absolute';
       score.style.top = "40px";
       score.style.left = "40px";
-      score.innerText = data.total
       avatar.appendChild(score);
-      console.log(avatar.id);
+      total = data.total;
+      score.innerText = this.total;
     };
     avatar.style.top = data.top;
     avatar.style.left = data.left;
@@ -73,7 +73,10 @@ window.addEventListener('DOMContentLoaded', function () {
     bol.addEventListener('click', function (e) {
       var target = e.currentTarget.id;
       var clicker = e.view.socket.id;
-      socket.emit('eat', {target, clicker})
+      socket.emit('eat', {
+        target,
+        clicker
+      })
     });
   }
   //---------------------------------------------------------
@@ -82,24 +85,25 @@ window.addEventListener('DOMContentLoaded', function () {
     drawAvatar(data.avatar);
   });
   //déplacements Avatars
-  window.addEventListener('mousemove', function(event){
-          socket.emit('move', {
-            top: event.clientY,
-            left: event.clientX
-          });
-      });
-//destroy
+  window.addEventListener('mousemove', function (event) {
+    socket.emit('move', {
+      top: event.clientY,
+      left: event.clientX
+    });
+  });
+  //destroy
   socket.on('destroy', function (data) {
+    console.log('destroy');
     var avatar = window.document.getElementById(data.id);
     if (avatar) {
       avatar.parentNode.removeChild(avatar);
     };
   });
-  
+
   //---------------------------------------------------------
   //GESTIONS DES EVENEMENTS / BOLS
-  
-//lancement de l'animation
+
+  //lancement de l'animation
   if (joueur1.innerText.length > 0 && joueur2.innerText.length > 0) {
     socket.emit('start', {});
   }
@@ -135,12 +139,13 @@ window.addEventListener('DOMContentLoaded', function () {
   });
   //disparition des bols cliqués
   socket.on('eatAction', function (clicking) {
-    console.log(clicking);
     var eating = window.document.getElementById(clicking.target);
+    var i = 1;
     if (eating) {
       eating.style.display = 'none';
-        total++;
-        document.getElementById(clicking.clicker).innerText = total;
+      var totalNumber = parseFloat(document.getElementById(clicking.clicker).innerText);
+      document.getElementById(clicking.clicker).innerText = totalNumber + i;
+      console.log(totalNumber);
     };
   });
   //
