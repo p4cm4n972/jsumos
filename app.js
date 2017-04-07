@@ -24,8 +24,13 @@ db.connect('mongodb://localhost:27017/jsumos', function(err) {
     console.log('Impossible de se connecter à la base de données.');
     process.exit(1);
   } else {
+<<<<<<< HEAD
     app.listen(3000, function() {
       console.log('Le serveur est disponible sur le port 3000');
+=======
+    app.listen(8080, function() {
+      console.log('Le serveur est disponible sur le port 8080');
+>>>>>>> ec77a7e1d1be712c2e69afbe9f87bef599ca670b
     });
   }
 });
