@@ -88,7 +88,6 @@ var player = 0;
 var joueur;
 io.on('connection', function (socket) {
   
-  console.log(socket.id);
   //restriction à 2 connection
   /*io.of('/').clients(function (error, clients) {
     if (clients.length === 2) {
@@ -149,7 +148,6 @@ io.emit('login', pseudoOK);
       });
 
   socket.on('eat', function (clicking) {
-    console.log(clicking);
     io.emit('eatAction', clicking);
   })
 
@@ -163,6 +161,6 @@ io.emit('login', pseudoOK);
 });
 
 
-http.listen(3000, function () {
+http.listen(8000, function () {
   console.log('HTTP listen on : 8000');
 });

@@ -93,7 +93,6 @@ window.addEventListener('DOMContentLoaded', function () {
   });
   //destroy
   socket.on('destroy', function (data) {
-    console.log('destroy');
     var avatar = window.document.getElementById(data.id);
     if (avatar) {
       avatar.parentNode.removeChild(avatar);
@@ -143,9 +142,11 @@ window.addEventListener('DOMContentLoaded', function () {
     var i = 1;
     if (eating) {
       eating.style.display = 'none';
-      var totalNumber = parseFloat(document.getElementById(clicking.clicker).innerText);
-      document.getElementById(clicking.clicker).innerText = totalNumber + i;
-      console.log(totalNumber);
+      //GESTION DU SCORE
+      var totalNumber = parseFloat(document.getElementById(clicking.clicker).firstChild.innerText);
+      console.log(document.getElementById(clicking.clicker).firstElementChild)
+      document.getElementById(clicking.clicker).firstChild.innerText = totalNumber + i;
+      
     };
   });
   //
