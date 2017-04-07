@@ -1,2 +1,3 @@
 # jsumos
-Jeu fullstack javascript socket.io mongoDB
+Jeu fullstack Javascript Node ExpressJS socket.io mongoDB
+[![alt tag](git.png)
