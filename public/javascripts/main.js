@@ -9,6 +9,7 @@ window.addEventListener('DOMContentLoaded', function () {
   var joueur1 = document.getElementById("pseudo1");
   var joueur2 = document.getElementById("pseudo2");
 
+
   //GESTION DES PSEUDOS
   window.addEventListener("submit", function (e) {
     var pseudoValue = document.getElementById('pseudo').value;
@@ -79,11 +80,17 @@ window.addEventListener('DOMContentLoaded', function () {
       })
     });
   }
+  //TIMER
+  var clock = function() {$('.clock').FlipClock({
+    clockFace: 'MinuteCounter'
+  });
+  };
   //---------------------------------------------------------
   //GESTIONS DES EVENEMENTS / AVATARS
   socket.on('update', function (data) {
     drawAvatar(data.avatar);
   });
+  
   //déplacements Avatars
   window.addEventListener('mousemove', function (event) {
     socket.emit('move', {
@@ -105,7 +112,11 @@ window.addEventListener('DOMContentLoaded', function () {
   //lancement de l'animation
   if (joueur1.innerText.length > 0 && joueur2.innerText.length > 0) {
     socket.emit('start', {});
+    socket.emit('clock', {});
   }
+   socket.on('clock', function () {
+    clock();
+  });
   //apparation des bols
   socket.on('animation', function (coord) {
     drawBol(coord);
@@ -143,10 +154,11 @@ window.addEventListener('DOMContentLoaded', function () {
     if (eating) {
       eating.style.display = 'none';
       //GESTION DU SCORE
-      var totalNumber = parseFloat(document.getElementById(clicking.clicker).firstChild.innerText);
-      console.log(document.getElementById(clicking.clicker).firstElementChild)
-      document.getElementById(clicking.clicker).firstChild.innerText = totalNumber + i;
-      
+      var totalNumber = parseFloat(document.getElementById(clicking.clicker).firstElementChild.innerText);
+      console.log(document.getElementById(clicking.clicker).firstChild);
+      console.log(document.getElementById(clicking.clicker).firstElementChild);
+      document.getElementById(clicking.clicker).firstElementChild.innerText = totalNumber + i;
+
     };
   });
   //

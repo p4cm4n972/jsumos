@@ -13,7 +13,7 @@ var db = require('./public/javascripts/db.js');
 
 
 
-db.connect('mongodb://localhost/jsumos', function(err) {
+db.connect('mongodb://jsumos:made81MA@ds155080.mlab.com:55080/jsumos', function(err) {
   if (err) {
     console.log('Impossible de se connecter à la base de données.');
     process.exit(1);
@@ -139,7 +139,9 @@ io.emit('login', pseudoOK);
       io.emit('animation', element);
     });
   });
-
+ socket.on('clock', function () {
+      io.emit('clock');
+  })
   socket.on('move', function (position) {
         avatar.top = parseFloat(position.top) + 10 + 'px';
         avatar.left = parseFloat(position.left) + 10 + 'px';
